@@ -17,7 +17,9 @@
                 <div class="weather-data d-flex">
                   <div class="mr-auto">
                     <h4 class="display-3">
-                      {{ weather.temperature }} <span class="symbol">°</span>C
+                      <span>{{
+                        switchTemp ? convertToCelsius : convertToFahrenheit
+                      }}</span>
                     </h4>
                     <p>{{ weather.description }}</p>
 
@@ -31,60 +33,70 @@
                 <div class="d-flex weakly-weather">
                   <div
                     class="weakly-weather-item"
-                    v-for="day in weather.daily"
+                    v-for="(day, index) in weather.daily"
                     v-bind:key="day"
                   >
-                    <p class="mb-0">{{ }}Day</p>
-                    <i class="mdi mdi-weather-cloudy">{{
-                      Math.round(day.temp.day)
-                    }}</i>
+                    {{ Day.nextDay[index] }}
+                    <p class="mdi mdi-weather-cloudy">
+                      {{
+                        switchTemp
+                          ? convertToCelsiusDays(day.temp.day)
+                          : convertToFahrenheitDays(day.temp.day)
+                      }}
+                    </p>
                     <p class="mb-0">
-                      {{ Math.round(day.temp.min) }} /
-                      {{ Math.round(day.temp.max) }}
+                      {{
+                        switchTemp
+                          ? convertToCelsiusDays(day.temp.min)
+                          : convertToFahrenheitDays(day.temp.min)
+                      }}
+                      /
+                      {{
+                        switchTemp
+                          ? convertToCelsiusDays(day.temp.max)
+                          : convertToFahrenheitDays(day.temp.max)
+                      }}
                     </p>
                   </div>
                 </div>
               </div>
-              <div
-                class="btn-group btn-group-toggle"
-                data-toggle="buttons"
-                :class="{ Feh: isFeh }"
-                v-on:click="toggle()"
-              >
-                <label class="btn btn-secondary active">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option1"
-                    autocomplete="off"
-                    checked
-                  />
-                  C
-                </label>
-                <label class="btn btn-secondary">
-                  <input
-                    type="radio"
-                    name="options"
-                    id="option2"
-                    autocomplete="off"
-                  />
-                  F
-                </label>
-              </div>
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input
+                  type="radio"
+                  name="options"
+                  id="option1"
+                  @click="switchTemp = true"
+                  autocomplete="off"
+                  checked
+                />
+                C
+              </label>
+              <label class="btn btn-secondary">
+                <input
+                  type="radio"
+                  @click="switchTemp = false"
+                  name="options"
+                  id="option2"
+                  autocomplete="off"
+                />
+                F
+              </label>
             </div>
           </div>
-          <!--weather card ends-->
         </div>
+        <!--weather card ends-->
       </div>
     </div>
   </div>
 </template>
 <script>
 import moment from "moment";
-
 export default {
   data() {
     return {
+      switchTemp: true,
       cityFound: false,
       visible: false,
       stormy: false,
@@ -93,12 +105,9 @@ export default {
       clearNight: false,
       snowy: false,
       isDay: true,
-      isFeh: true,
-
-      citySearch: "",
       weather: {
-        cityName: "Gwarinpa",
-        country: "NG",
+        cityName: "Alex",
+        country: "EG",
         temperature: 12,
         description: "Clouds everywhere",
         pressure: "pressure",
@@ -110,10 +119,17 @@ export default {
       Day: {
         currentDate: "",
         currentDay: "",
+        nextDay: [""],
       },
     };
   },
   methods: {
+    convertToCelsiusDays(e) {
+      return Math.round(+e - 273.15) + " °C";
+    },
+    convertToFahrenheitDays(e) {
+      return Math.round(((e - 273.15) * 9) / 5 + 32) + " °F";
+    },
     getWeather: async function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -121,7 +137,7 @@ export default {
           let lon = position.coords.longitude;
           let lat = position.coords.latitude;
           // API_KEY
-          const API_KEY = "15cb44b943ee32703dac10b393f3d17b";
+          const API_KEY = "0cad4b9d76235986d03e7c39bd611ee6";
           // API URL
           const base = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
           // Calling the API
@@ -171,22 +187,32 @@ export default {
       var mm = monthNames[today.getMonth()];
       var yyyy = today.getFullYear();
       var day = days[today.getDay()];
+      let weekDays = [];
+      let daysRequired = 8;
+      for (let i = 1; i <= daysRequired; i++) {
+        weekDays.push(moment().add(i, "days").format("dddd"));
+      }
+      console.log(weekDays);
+      this.Day.nextDay = weekDays;
       today = " " + dd + "-" + mm + "-" + yyyy;
       console.log(today);
-      console.log("Day is : " + day);
       this.Day.currentDate = today;
       this.Day.currentDay = day;
-    },
-    getHumanDate: function (date) {
-      return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
-    },
-    toggle() {
-      this.Feh = !this.Feh;
     },
   },
   beforeMount() {
     this.getWeather();
     this.getDay();
+  },
+  computed: {
+    convertToCelsius() {
+      return Math.round(this.weather.temperature - 273.15) + " °C";
+    },
+    convertToFahrenheit() {
+      return (
+        Math.round(((this.weather.temperature - 273.15) * 9) / 5 + 32) + " °F"
+      );
+    },
   },
 };
 </script>
