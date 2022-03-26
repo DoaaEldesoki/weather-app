@@ -178,21 +178,7 @@ export default {
   data() {
     return {
       switchTemp: true,
-      cityFound: false,
-      visible: false,
-      stormy: false,
-      cloudy: false,
-      clearSky: false,
-      clearNight: false,
-      snowy: false,
       isDay: true,
-      weathers: {
-        Snow: "snowy",
-        Clouds: "cloudy",
-        Rain: "rainy",
-        Clear: "sunny",
-        Thunderstorm: "thunder",
-      },
       weather: {
         cityName: "Alex",
         country: "EG",
@@ -206,7 +192,6 @@ export default {
         hourly: [""],
         timeOfDay: "",
         icons: "",
-        isDay: true,
       },
       Day: {
         currentDate: "",
