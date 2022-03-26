@@ -145,7 +145,7 @@
                           v-for="(day, index) in weather.hourly"
                           v-bind:key="day"
                         >
-                          {{ Day.nextDay[index] }}
+                          {{ Day.nextHours[index] }}
                           <p class="mdi mdi-weather-cloudy">
                             <img
                               :src="icon(weather.hourly[index].weather[0].icon)"
@@ -197,6 +197,7 @@ export default {
         currentDate: "",
         currentDay: "",
         nextDay: [""],
+        nextHours:[""]
       },
     };
   },
@@ -280,11 +281,21 @@ export default {
         weekDays.push(moment().add(i, "days").format("dddd"));
       }
       this.Day.nextDay = weekDays;
+         let allNextHours= [];
+      let HoursRequired = 48;
+      for (let i = 1; i <= HoursRequired; i++) {
+        allNextHours.push(moment().add(i, "Hours").format(" HH:mm"));
+      }
+            this.Day.nextHours = allNextHours;
+console.log(allNextHours)
 
       today = " " + dd + "  " + mm + "  " + yyyy;
       this.Day.currentDate = today;
       this.Day.currentDay = day;
+   
+
     },
+
     icon(e) {
       return `https://openweathermap.org/img/wn/${e}@2x.png`;
     },
