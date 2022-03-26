@@ -66,7 +66,7 @@ body {
 }
 
 .card-weather .card-body:first-child {
-    background: url('../images/x-xtgONQzGgOE-unsplash.jpg') no-repeat center;
+    background: url('../images/szabo-viktor-28ZbKOWiZfs-unsplash.jpg') no-repeat center;
     background-size: cover
 }
 
@@ -160,3 +160,18 @@ p {
 
 
 
+#main {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.day {
+  background: linear-gradient(to bottom left, #d7d3ac, #ffffff);
+}
+.night {
+  background: linear-gradient(to bottom left, #4854a2, #3d3d3d);
+  color: white;
+}
+.imgIcon{
+    width: 100px;
+}

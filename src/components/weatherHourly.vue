@@ -64,13 +64,13 @@
                 <div class="d-flex weakly-weather">
                   <div
                     class="weakly-weather-item"
-                    v-for="(day, index) in weather.daily"
+                    v-for="(day, index) in weather.hourly"
                     v-bind:key="day"
                   >
                     {{ Day.nextDay[index] }}
                     <p class="mdi mdi-weather-cloudy">
                       <img
-                        :src="icon(weather.daily[index].weather[0].icon)"
+                        :src="icon(weather.hourly[index].weather[0].icon)"
                         class="imgIcon"
                       />
                       {{
@@ -98,8 +98,6 @@
             </div>
           </div>
         </div>
-
-       
         <!--weather card ends-->
       </div>
     </div>
@@ -135,10 +133,9 @@ export default {
         feelsLike: "20",
         humidity: "55",
         shortsummary: "",
-        daily: [""],
+        hourly: [""],
         timeOfDay: "",
         icons: "",
-        isDay: true,
       },
       Day: {
         currentDate: "",
@@ -177,16 +174,10 @@ export default {
               this.weather.humidity = data.current.humidity;
               this.weather.description = data.current.weather[0].description;
               this.weather.pressure = data.current.pressure;
-              this.weather.daily = data.daily;
+              this.weather.hourly = data.hourly;
               this.weather.timeOfDay = data.current.weather[0].icon;
-              const timeOftheDay = data.current.weather[0].icon;
 
               ///check for time of day
-              if (timeOftheDay.includes("n")) {
-                this.isDay = false;
-              } else {
-                this.isDay = true;
-              }
             });
         });
       }
@@ -257,4 +248,5 @@ export default {
 
 <style>
 @import "./assets/custom.css";
+@import "./assets/animation.css";
 </style>
