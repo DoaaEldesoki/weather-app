@@ -67,6 +67,8 @@ body {
 
 .card-weather .card-body:first-child {
     background: url('../images/szabo-viktor-28ZbKOWiZfs-unsplash.jpg') no-repeat center;
+    /* background: linear-gradient(to bottom left, #4854a2, #3d3d3d); */
+
     background-size: cover
 }
 

@@ -61,37 +61,105 @@
                 </div>
               </div>
               <div class="card-body p-0">
-                <div class="d-flex weakly-weather">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                    <button
+                      class="nav-link active"
+                      id="daily-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#daily"
+                      type="button"
+                      role="tab"
+                      aria-controls="daily"
+                      aria-selected="true"
+                    >
+                      Daily Weather
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="hourly-tab"
+                      data-bs-toggle="tab"
+                      data-bs-target="#hourly"
+                      type="button"
+                      role="tab"
+                      aria-controls="hourly"
+                      aria-selected="false"
+                    >
+                      Hourly weather
+                    </button>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
                   <div
-                    class="weakly-weather-item"
-                    v-for="(day, index) in weather.daily"
-                    v-bind:key="day"
+                    class="tab-pane fade show active"
+                    id="daily"
+                    role="tabpanel"
+                    aria-labelledby="daily-tab"
                   >
-                    {{ Day.nextDay[index] }}
-                    <p class="mdi mdi-weather-cloudy">
-                      <img
-                        :src="icon(weather.daily[index].weather[0].icon)"
-                        class="imgIcon"
-                      />
-                      {{
-                        switchTemp
-                          ? convertToCelsiusDays(day.temp.day)
-                          : convertToFahrenheitDays(day.temp.day)
-                      }}
-                    </p>
-                    <p class="mb-0">
-                      {{
-                        switchTemp
-                          ? convertToCelsiusDays(day.temp.min)
-                          : convertToFahrenheitDays(day.temp.min)
-                      }}
-                      /
-                      {{
-                        switchTemp
-                          ? convertToCelsiusDays(day.temp.max)
-                          : convertToFahrenheitDays(day.temp.max)
-                      }}
-                    </p>
+                    <div class="d-flex weakly-weather">
+                      <div
+                        class="weakly-weather-item"
+                        v-for="(day, index) in weather.daily"
+                        v-bind:key="day"
+                      >
+                        {{ Day.nextDay[index] }}
+                        <p class="mdi mdi-weather-cloudy">
+                          <img
+                            :src="icon(weather.daily[index].weather[0].icon)"
+                            class="imgIcon"
+                          />
+                          {{
+                            switchTemp
+                              ? convertToCelsiusDays(day.temp.day)
+                              : convertToFahrenheitDays(day.temp.day)
+                          }}
+                        </p>
+                        <p class="mb-0">
+                          {{
+                            switchTemp
+                              ? convertToCelsiusDays(day.temp.min)
+                              : convertToFahrenheitDays(day.temp.min)
+                          }}
+                          /
+                          {{
+                            switchTemp
+                              ? convertToCelsiusDays(day.temp.max)
+                              : convertToFahrenheitDays(day.temp.max)
+                          }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="hourly"
+                    role="tabpanel"
+                    aria-labelledby="hourly-tab"
+                  >
+                    <div class="card-body p-0">
+                      <div class="d-flex weakly-weather">
+                        <div
+                          class="weakly-weather-item"
+                          v-for="(day, index) in weather.hourly"
+                          v-bind:key="day"
+                        >
+                          {{ Day.nextDay[index] }}
+                          <p class="mdi mdi-weather-cloudy">
+                            <img
+                              :src="icon(weather.hourly[index].weather[0].icon)"
+                              class="imgIcon"
+                            />
+                            {{
+                              switchTemp
+                                ? convertToCelsiusDays(day.temp)
+                                : convertToFahrenheitDays(day.temp)
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -135,6 +203,7 @@ export default {
         humidity: "55",
         shortsummary: "",
         daily: [""],
+        hourly: [""],
         timeOfDay: "",
         icons: "",
         isDay: true,
@@ -177,6 +246,7 @@ export default {
               this.weather.description = data.current.weather[0].description;
               this.weather.pressure = data.current.pressure;
               this.weather.daily = data.daily;
+              this.weather.hourly = data.hourly;
               this.weather.timeOfDay = data.current.weather[0].icon;
               const timeOftheDay = data.current.weather[0].icon;
 
