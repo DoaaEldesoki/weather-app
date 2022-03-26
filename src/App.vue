@@ -99,7 +99,6 @@
           </div>
         </div>
 
-       
         <!--weather card ends-->
       </div>
     </div>
