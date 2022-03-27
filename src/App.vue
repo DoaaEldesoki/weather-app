@@ -38,7 +38,7 @@
                     </div>
                     <div class="weather-date">
                       <span>{{ Day.currentDay }}</span>
-                 {{ Day.currentDate }}
+                      {{ Day.currentDate }}
                     </div>
                   </div>
                 </div>
@@ -112,7 +112,7 @@
                         {{ Day.nextDay[index] }}
                         <p class="mdi mdi-weather-cloudy">
                           <img
-                            :src="icon(weather.daily[index].weather[0].icon)"
+                            :src="icon(weather.daily[index]?.weather[0].icon)"
                             class="imgIcon"
                           />
                           {{
@@ -216,7 +216,6 @@ export default {
     getWeather: async function () {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          console.log(position);
           let lon = position.coords.longitude;
           let lat = position.coords.latitude;
           // API_KEY
@@ -229,7 +228,6 @@ export default {
               return response.json();
             })
             .then((data) => {
-              console.log(data);
               this.weather.temperature = Math.round(data.current.temp);
               this.weather.country = data.timezone.substring(7, 13);
               this.weather.feelsLike = Math.round(data.current.feels_like);
@@ -240,7 +238,6 @@ export default {
               this.weather.hourly = data.hourly;
               this.weather.timeOfDay = data.current.weather[0].icon;
               const timeOftheDay = data.current.weather[0].icon;
-
               ///check for time of day
               if (timeOftheDay.includes("n")) {
                 this.isDay = false;
@@ -292,7 +289,6 @@ export default {
         allNextHours.push(moment().add(i, "Hours").format(" hh  A"));
       }
       this.Day.nextHours = allNextHours;
-      console.log(allNextHours);
 
       today = " " + dd + "  " + mm + "  " + yyyy;
       this.Day.currentDate = today;
