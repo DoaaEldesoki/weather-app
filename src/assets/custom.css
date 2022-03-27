@@ -50,7 +50,6 @@ body {
 
 .card-weather {
     background: #e1ecff;
-    background-image: linear-gradient(to left bottom, #d6eef6, #dff0fa, #e7f3fc, #eff6fe, #f6f9ff)
 }
 
 .card {
@@ -65,12 +64,7 @@ body {
     border-radius: 0.25rem
 }
 
-.card-weather .card-body:first-child {
-    background: url('../images/szabo-viktor-28ZbKOWiZfs-unsplash.jpg') no-repeat center;
-    /* background: linear-gradient(to bottom left, #4854a2, #3d3d3d); */
 
-    background-size: cover
-}
 
 .card .card-body {
     padding: 1.88rem 1.81rem
@@ -113,7 +107,7 @@ h6 {
 }
 
 p {
-    font-size: 13px
+    font-size: 18px
 }
 
 .text-gray,
@@ -135,16 +129,15 @@ p {
     font-size: 2.5rem
 }
 
-.card-weather .card-body {
+ .card-body {
     background: #ffffff
 }
-
-.card-weather .weakly-weather {
+ .weakly-weather {
     background: #ffffff;
     overflow-x: auto
 }
 
-.card-weather .weakly-weather .weakly-weather-item {
+ .weakly-weather .weakly-weather-item {
     flex: 0 0 14.28%;
     border-right: 1px solid #f2f2f2;
     padding: 1rem;
@@ -156,7 +149,7 @@ p {
     margin-bottom: 0 !important
 }
 
-.card-weather .weakly-weather .weakly-weather-item i {
+ .weakly-weather .weakly-weather-item i {
     font-size: 1.2rem
 }
 
@@ -168,10 +161,14 @@ p {
   width: 100%;
 }
 .day {
-  background: linear-gradient(to bottom left, #d7d3ac, #ffffff);
+  background: url('../images/day.jpg') no-repeat center;
+
+
+
 }
 .night {
-  background: linear-gradient(to bottom left, #4854a2, #3d3d3d);
+  background: url('../images/night.jpg') no-repeat center;
+
   color: white;
 }
 .imgIcon{

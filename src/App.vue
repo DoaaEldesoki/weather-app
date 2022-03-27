@@ -5,10 +5,10 @@
         <div class="row container d-flex justify-content-center">
           <div class="col-lg-8 grid-margin stretch-card">
             <!--weather card-->
-            <div class="card card-weather">
-              <div class="card-body">
+            <div class="card">
+              <div class="card-body" :class="isDay ? 'day' : 'night'">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-secondary active">
+                  <label class="btn btn-outline-primary">
                     <input
                       type="radio"
                       name="options"
@@ -16,10 +16,11 @@
                       @click="switchTemp = true"
                       autocomplete="off"
                       checked
+                      class="btn"
                     />
                     C
                   </label>
-                  <span class="btn btn-secondary">
+                  <span class="btn btn-outline-primary">
                     <input
                       type="radio"
                       @click="switchTemp = false"
@@ -31,10 +32,14 @@
                   </span>
                 </div>
                 <div class="weather-date-location">
-                  <h3>{{ Day.currentDay }}</h3>
                   <div class="text-gray">
-                    <div class="weather-location">{{ weather.country }}</div>
-                    <div class="weather-date">{{ Day.currentDate }}</div>
+                    <div class="weather-location">
+                      <h3>{{ weather.country }}</h3>
+                    </div>
+                    <div class="weather-date">
+                      <span>{{ Day.currentDay }}</span>
+                 {{ Day.currentDate }}
+                    </div>
                   </div>
                 </div>
                 <div class="weather-data d-flex">
@@ -44,7 +49,6 @@
                         switchTemp ? convertToCelsius : convertToFahrenheit
                       }}</span>
                     </h4>
-                    <p>{{ weather.description }}</p>
 
                     <p>
                       Feels like :
@@ -57,6 +61,7 @@
                     <p>Humidity : {{ weather.humidity }} %</p>
                     <p>Pressure : {{ weather.pressure }}</p>
                     <img :src="img" class="imgIcon" alt />
+                    <p>{{ weather.description }}</p>
                   </div>
                 </div>
               </div>
@@ -197,7 +202,7 @@ export default {
         currentDate: "",
         currentDay: "",
         nextDay: [""],
-        nextHours:[""]
+        nextHours: [""],
       },
     };
   },
@@ -226,7 +231,7 @@ export default {
             .then((data) => {
               console.log(data);
               this.weather.temperature = Math.round(data.current.temp);
-              this.weather.country = data.timezone;
+              this.weather.country = data.timezone.substring(7, 13);
               this.weather.feelsLike = Math.round(data.current.feels_like);
               this.weather.humidity = data.current.humidity;
               this.weather.description = data.current.weather[0].description;
@@ -281,19 +286,17 @@ export default {
         weekDays.push(moment().add(i, "days").format("dddd"));
       }
       this.Day.nextDay = weekDays;
-         let allNextHours= [];
+      let allNextHours = [];
       let HoursRequired = 48;
       for (let i = 1; i <= HoursRequired; i++) {
-        allNextHours.push(moment().add(i, "Hours").format(" HH:mm"));
+        allNextHours.push(moment().add(i, "Hours").format(" hh  A"));
       }
-            this.Day.nextHours = allNextHours;
-console.log(allNextHours)
+      this.Day.nextHours = allNextHours;
+      console.log(allNextHours);
 
       today = " " + dd + "  " + mm + "  " + yyyy;
       this.Day.currentDate = today;
       this.Day.currentDay = day;
-   
-
     },
 
     icon(e) {
